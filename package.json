@@ -1,10 +1,14 @@
 {
-  "name": "gendiff",
+  "name": "aethra-gendiff",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
-  "bin": {},
-  "files": {},
+  "bin": {
+    "gendiff": "dist/bin/gendiff.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "babel-node": "babel-node",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -31,5 +35,8 @@
   "bugs": {
     "url": "https://github.com/AndreyMork/project-lvl2-s201/issues"
   },
-  "homepage": "https://github.com/AndreyMork/project-lvl2-s201#readme"
+  "homepage": "https://github.com/AndreyMork/project-lvl2-s201#readme",
+  "dependencies": {
+    "commander": "^2.15.0"
+  }
 }

@@ -1,7 +1,7 @@
 install:
 	npm install
 
-start:
+gendiff:
 	npm run babel-node -- src/bin/gendiff.js
 
 build:
