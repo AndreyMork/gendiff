@@ -11,5 +11,8 @@ publish:
 lint:
 	npm run eslint .
 
+test:
+	npm run test
+
 gendiff:
 	npm run babel-node -- src/bin/gendiff.js

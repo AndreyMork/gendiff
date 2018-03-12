@@ -3,7 +3,7 @@
 import program from 'commander';
 
 program
-  .description('Compares two configuration files and shows a difference.')
+  .description('Compares two configuration files and shows the difference.')
   .arguments('<firstConfig>')
   .arguments('<secondConfig>')
   .option('-V, --version', 'output the version number')
