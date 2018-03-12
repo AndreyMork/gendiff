@@ -1,0 +1,35 @@
+{
+  "name": "gendiff",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "bin": {},
+  "files": {},
+  "scripts": {
+    "babel-node": "babel-node",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint src",
+    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndreyMork/project-lvl2-s201.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "*",
+    "babel-core": "*",
+    "babel-eslint": "*",
+    "babel-preset-env": "*",
+    "babel-preset-stage-0": "*",
+    "eslint": "*",
+    "eslint-config-airbnb-base": "*",
+    "eslint-plugin-import": "*"
+  },
+  "bugs": {
+    "url": "https://github.com/AndreyMork/project-lvl2-s201/issues"
+  },
+  "homepage": "https://github.com/AndreyMork/project-lvl2-s201#readme"
+}
