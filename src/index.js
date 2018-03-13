@@ -15,15 +15,18 @@ export default (beforeFilePath, afterFilePath) => {
   const removedKeys = new Set(difference(beforeFileKeys, afterFileKeys));
 
   const keyToString = (key) => {
+    const beforeStr = `${key}: ${beforeFile[key]}`;
+    const afterStr = `${key}: ${afterFile[key]}`;
+
     if (addedKeys.has(key)) {
-      return `  + ${key}: ${afterFile[key]}`;
+      return `  + ${afterStr}`;
     } else if (removedKeys.has(key)) {
-      return `  - ${key}: ${beforeFile[key]}`;
+      return `  - ${beforeStr}`;
     } else if (beforeFile[key] === afterFile[key]) {
-      return `    ${key}: ${afterFile[key]}`;
+      return `    ${afterStr}`;
     }
 
-    return `  + ${key}: ${afterFile[key]}\n  - ${key}: ${beforeFile[key]}`;
+    return `  + ${afterStr}\n  - ${beforeStr}`;
   };
 
   const keys = union(beforeFileKeys, afterFileKeys);
