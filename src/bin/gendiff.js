@@ -8,7 +8,6 @@ program
   .version(version)
   .arguments('<firstConfig>')
   .arguments('<secondConfig>')
-  .option('-V, --version', 'output the version number')
   .option('-f, --format [type]', 'output format')
   .action((firstConfig, secondConfig) => console.log(gendiff(firstConfig, secondConfig)))
   .parse(process.argv);
