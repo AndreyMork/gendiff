@@ -14,8 +14,7 @@
     "test": "jest",
     "eslint": "eslint",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
-    "prepublishOnly": "npm run build",
-    "my-test": "jest --watch __tests__"
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -42,6 +41,7 @@
   },
   "homepage": "https://github.com/AndreyMork/project-lvl2-s201#readme",
   "dependencies": {
-    "commander": "^2.15.0"
+    "commander": "^2.15.0",
+    "lodash": "^4.17.5"
   }
 }
