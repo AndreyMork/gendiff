@@ -2,7 +2,7 @@
 import { readFileSync } from 'fs';
 import { difference, union } from 'lodash';
 
-const getObjFromJson = Filepath => JSON.parse(readFileSync(Filepath), (key, value) => value || '""');
+const getObjFromJson = filepath => JSON.parse(readFileSync(filepath), (key, value) => value || '""');
 
 export default (beforeFilePath, afterFilePath) => {
   const beforeFile = getObjFromJson(beforeFilePath);
