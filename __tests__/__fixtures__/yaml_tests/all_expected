@@ -1,0 +1,12 @@
+{
+  + change: changed
+  - change: not changed
+  + change2: changed
+  - change2: not changed
+    not-change: still the same
+    not-change2: still the same
+  - remove: removed
+  - remove2: removed
+  + new: added
+  + new2: added
+}
