@@ -22,7 +22,7 @@ export default (beforeFilePath, afterFilePath) => {
       return `  + ${afterStr}`;
     } else if (removedKeys.has(key)) {
       return `  - ${beforeStr}`;
-    } else if (beforeFile[key] === afterFile[key]) {
+    } else if (beforeStr === afterStr) {
       return `    ${afterStr}`;
     }
 
