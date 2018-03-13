@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 import { readFileSync } from 'fs';
-import { difference, intersection } from 'lodash';
+import { difference, union } from 'lodash';
 
 const getObjFromJson = Filepath => JSON.parse(readFileSync(Filepath), (key, value) => value || '""');
 
@@ -11,26 +11,23 @@ export default (beforeFilePath, afterFilePath) => {
   const beforeFileKeys = Object.keys(beforeFile);
   const afterFileKeys = Object.keys(afterFile);
 
-  const addedKeys = difference(afterFileKeys, beforeFileKeys)
-    .reduce((acc, key) => ({ ...acc, [key]: `  + ${key}: ${afterFile[key]}` }), {});
+  const addedKeys = new Set(difference(afterFileKeys, beforeFileKeys));
+  const removedKeys = new Set(difference(beforeFileKeys, afterFileKeys));
 
-  const removedKeys = difference(beforeFileKeys, afterFileKeys)
-    .reduce((acc, key) => ({ ...acc, [key]: `  - ${key}: ${beforeFile[key]}` }), {});
+  const keyToString = (key) => {
+    if (addedKeys.has(key)) {
+      return `  + ${key}: ${afterFile[key]}`;
+    } else if (removedKeys.has(key)) {
+      return `  - ${key}: ${beforeFile[key]}`;
+    } else if (beforeFile[key] === afterFile[key]) {
+      return `    ${key}: ${afterFile[key]}`;
+    }
 
-  const commonKeys = intersection(beforeFileKeys, afterFileKeys)
-    .reduce((acc, key) => {
-      const str = (beforeFile[key] === afterFile[key]) ?
-        `    ${key}: ${afterFile[key]}` :
-        `  + ${key}: ${afterFile[key]}\n  - ${key}: ${beforeFile[key]}`;
-      return { ...acc, [key]: str };
-    }, {});
+    return `  + ${key}: ${afterFile[key]}\n  - ${key}: ${beforeFile[key]}`;
+  };
 
-  const keyToDiffString = { ...addedKeys, ...removedKeys, ...commonKeys };
-  const orderedKeys = [
-    ...beforeFileKeys,
-    ...difference(afterFileKeys, beforeFileKeys),
-  ];
+  const keys = union(beforeFileKeys, afterFileKeys);
+  const diffStrings = keys.map(key => keyToString(key)).join('\n');
 
-  const res = orderedKeys.map(key => keyToDiffString[key]).join('\n');
-  return `{\n${res}\n}\n`;
+  return `{\n${diffStrings}\n}\n`;
 };
