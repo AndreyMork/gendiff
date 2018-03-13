@@ -29,6 +29,7 @@
     "babel-jest": "*",
     "babel-preset-env": "*",
     "babel-preset-stage-0": "*",
+    "codeclimate-test-reporter": "^0.5.0",
     "eslint": "*",
     "eslint-config-airbnb-base": "*",
     "eslint-plugin-import": "*",
