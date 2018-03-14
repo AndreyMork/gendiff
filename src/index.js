@@ -1,13 +1,8 @@
 #! /usr/bin/env node
-import { readFileSync } from 'fs';
 import { union } from 'lodash';
+import parse from './parser';
 
-const getObjFromJson = filepath => JSON.parse(readFileSync(filepath), (key, value) => value || '""');
-
-export default (beforeFilePath, afterFilePath) => {
-  const beforeFile = getObjFromJson(beforeFilePath);
-  const afterFile = getObjFromJson(afterFilePath);
-
+const getDifference = (beforeFile, afterFile) => {
   const isRemovedKey = key => beforeFile[key] && !afterFile[key];
   const isAddedKey = key => !beforeFile[key] && afterFile[key];
   const isChangedKey = key => beforeFile[key] !== afterFile[key];
@@ -29,3 +24,6 @@ export default (beforeFilePath, afterFilePath) => {
 
   return ['{', ...diffStrings, '}\n'].join('\n');
 };
+
+export default (beforeFilePath, afterFilePath) =>
+  getDifference(parse(beforeFilePath), parse(afterFilePath));
