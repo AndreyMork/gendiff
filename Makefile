@@ -15,4 +15,4 @@ test:
 	npm run test
 
 gendiff:
-	npm run babel-node -- src/bin/gendiff.js
+	npm run babel-node -- src/bin/gendiff.js __tests__/__fixtures__/json_tests/all_before.json __tests__/__fixtures__/json_tests/all_after.json
