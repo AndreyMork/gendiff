@@ -1,7 +1,6 @@
 #! /usr/bin/env node
 import program from 'commander';
 import gendiff from '../';
-import colorfy from '../colorfy';
 import { version } from '../../package.json';
 
 program
@@ -10,5 +9,5 @@ program
   .arguments('<firstConfig>')
   .arguments('<secondConfig>')
   .option('-f, --format [type]', 'output format')
-  .action((firstConfig, secondConfig) => console.log(colorfy(gendiff(firstConfig, secondConfig))))
+  .action((firstConfig, secondConfig) => console.log(gendiff(firstConfig, secondConfig))
   .parse(process.argv);
