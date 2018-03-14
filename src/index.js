@@ -1,29 +1,17 @@
 #! /usr/bin/env node
-import { union } from 'lodash';
+import { readFileSync } from 'fs';
+import { extname } from 'path';
 import parse from './parser';
+import getDifference from './getDiff';
 
-const getDifference = (beforeFile, afterFile) => {
-  const isRemovedKey = key => beforeFile[key] && !afterFile[key];
-  const isAddedKey = key => !beforeFile[key] && afterFile[key];
-  const isChangedKey = key => beforeFile[key] !== afterFile[key];
+const getFileAsStr = filepath => readFileSync(filepath, 'utf-8');
 
-  const keys = union(Object.keys(beforeFile), Object.keys(afterFile));
-  const diffStrings = keys
-    .map((key) => {
-      const beforeStr = `${key}: ${beforeFile[key]}`;
-      const afterStr = `${key}: ${afterFile[key]}`;
+export default (beforeFilePath, afterFilePath) => {
+  const beforeFile = getFileAsStr(beforeFilePath);
+  const afterFile = getFileAsStr(afterFilePath);
 
-      if (isAddedKey(key)) {
-        return `  + ${afterStr}`;
-      } else if (isRemovedKey(key)) {
-        return `  - ${beforeStr}`;
-      }
+  const parsedBeforeFile = parse(beforeFile, extname(beforeFilePath));
+  const parsedAfterFile = parse(afterFile, extname(afterFilePath));
 
-      return isChangedKey(key) ? `  + ${afterStr}\n  - ${beforeStr}` : `    ${afterStr}`;
-    });
-
-  return ['{', ...diffStrings, '}\n'].join('\n');
+  return getDifference(parsedBeforeFile, parsedAfterFile);
 };
-
-export default (beforeFilePath, afterFilePath) =>
-  getDifference(parse(beforeFilePath), parse(afterFilePath));
