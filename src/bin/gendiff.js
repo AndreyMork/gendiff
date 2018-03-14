@@ -9,5 +9,5 @@ program
   .arguments('<firstConfig>')
   .arguments('<secondConfig>')
   .option('-f, --format [type]', 'output format')
-  .action((firstConfig, secondConfig) => console.log(gendiff(firstConfig, secondConfig))
+  .action((firstConfig, secondConfig) => console.log(gendiff(firstConfig, secondConfig)))
   .parse(process.argv);

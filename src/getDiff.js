@@ -1,15 +1,15 @@
 import { union } from 'lodash';
 
 export default (beforeFile, afterFile) => {
-  const isRemovedKey = key => beforeFile[key] && !afterFile[key];
-  const isAddedKey = key => !beforeFile[key] && afterFile[key];
+  const isRemovedKey = key => beforeFile[key] !== undefined && afterFile[key] === undefined;
+  const isAddedKey = key => beforeFile[key] === undefined && afterFile[key] !== undefined;
   const isChangedKey = key => beforeFile[key] !== afterFile[key];
 
   const keys = union(Object.keys(beforeFile), Object.keys(afterFile));
   const diffStrings = keys
     .map((key) => {
-      const beforeStr = `${key}: ${beforeFile[key]}`;
-      const afterStr = `${key}: ${afterFile[key]}`;
+      const beforeStr = `${key}: ${beforeFile[key]}`.trim();
+      const afterStr = `${key}: ${afterFile[key]}`.trim();
 
       if (isAddedKey(key)) {
         return `  + ${afterStr}`;
