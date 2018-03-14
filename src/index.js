@@ -3,18 +3,23 @@ import { union } from 'lodash';
 import parse from './parser';
 
 const getDifference = (beforeFile, afterFile) => {
-  const isInBeforeFile = key => beforeFile[key];
-  const isInAfterFile = key => afterFile[key];
-  const isNotChanged = key => beforeFile[key] === afterFile[key];
+  const isRemovedKey = key => beforeFile[key] && !afterFile[key];
+  const isAddedKey = key => !beforeFile[key] && afterFile[key];
+  const isChangedKey = key => beforeFile[key] !== afterFile[key];
 
   const keys = union(Object.keys(beforeFile), Object.keys(afterFile));
   const diffStrings = keys
     .map((key) => {
-      const beforeStr = isInBeforeFile(key) ? `  - ${key}: ${beforeFile[key]}` : undefined;
-      const afterStr = isInAfterFile(key) ? `  + ${key}: ${afterFile[key]}` : undefined;
+      const beforeStr = `${key}: ${beforeFile[key]}`;
+      const afterStr = `${key}: ${afterFile[key]}`;
 
-      return isNotChanged(key) ? `    ${key}: ${beforeFile[key]}` :
-        [afterStr || '', beforeStr || ''].filter(e => e).join('\n');
+      if (isAddedKey(key)) {
+        return `  + ${afterStr}`;
+      } else if (isRemovedKey(key)) {
+        return `  - ${beforeStr}`;
+      }
+
+      return isChangedKey(key) ? `  + ${afterStr}\n  - ${beforeStr}` : `    ${afterStr}`;
     });
 
   return ['{', ...diffStrings, '}\n'].join('\n');
