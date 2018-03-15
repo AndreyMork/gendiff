@@ -1,5 +1,7 @@
 import { union, has } from 'lodash';
 
+const indent = ' '.repeat(2);
+
 export default (beforeFile, afterFile) => {
   const isRemovedKey = key => has(beforeFile, key) && !has(afterFile, key);
   const isAddedKey = key => !has(beforeFile, key) && has(afterFile, key);
@@ -12,12 +14,13 @@ export default (beforeFile, afterFile) => {
       const afterStr = `${key}: ${afterFile[key]}`.trim();
 
       if (isAddedKey(key)) {
-        return `  + ${afterStr}`;
+        return `${indent}+ ${afterStr}`;
       } else if (isRemovedKey(key)) {
-        return `  - ${beforeStr}`;
+        return `${indent}- ${beforeStr}`;
       }
 
-      return isChangedKey(key) ? `  + ${afterStr}\n  - ${beforeStr}` : `    ${afterStr}`;
+      return isChangedKey(key) ? `${indent}+ ${afterStr}\n${indent}- ${beforeStr}` :
+        `${indent.repeat(2)}${afterStr}`;
     });
 
   return ['{', ...diffStrings, '}\n'].join('\n');
