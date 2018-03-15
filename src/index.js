@@ -10,8 +10,8 @@ export default (beforeFilePath, afterFilePath) => {
   const beforeFile = getFileAsStr(beforeFilePath);
   const afterFile = getFileAsStr(afterFilePath);
 
-  const parsedBeforeFile = parse(beforeFile, extname(beforeFilePath)) || {};
-  const parsedAfterFile = parse(afterFile, extname(afterFilePath)) || {};
+  const parsedBeforeFile = parse(beforeFile, extname(beforeFilePath));
+  const parsedAfterFile = parse(afterFile, extname(afterFilePath));
 
   return getDifference(parsedBeforeFile, parsedAfterFile);
 };

@@ -27,8 +27,3 @@ test('no-diff', () => {
   const expected = readFileSync(pathTo('no_diff_expected'), 'utf-8');
   expect(getDiff(pathTo('no_diff_before.json'), pathTo('no_diff_after.json'))).toBe(expected);
 });
-
-test('empty', () => {
-  const expected = readFileSync(pathTo('empty_expected'), 'utf-8');
-  expect(getDiff(pathTo('empty_before.json'), pathTo('empty_after.json'))).toBe(expected);
-});

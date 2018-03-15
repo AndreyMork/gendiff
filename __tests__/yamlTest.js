@@ -27,8 +27,3 @@ test('no-diff', () => {
   const expected = readFileSync(pathTo('no_diff_expected'), 'utf-8');
   expect(getDiff(pathTo('no_diff_before.yaml'), pathTo('no_diff_after.yaml'))).toBe(expected);
 });
-
-test('empty', () => {
-  const expected = readFileSync(pathTo('empty_expected'), 'utf-8');
-  expect(getDiff(pathTo('empty_before.yaml'), pathTo('empty_after.yaml'))).toBe(expected);
-});

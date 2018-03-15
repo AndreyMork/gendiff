@@ -1,8 +1,8 @@
-import { union } from 'lodash';
+import { union, has } from 'lodash';
 
 export default (beforeFile, afterFile) => {
-  const isRemovedKey = key => beforeFile[key] !== undefined && afterFile[key] === undefined;
-  const isAddedKey = key => beforeFile[key] === undefined && afterFile[key] !== undefined;
+  const isRemovedKey = key => has(beforeFile, key) && !has(afterFile, key);
+  const isAddedKey = key => !has(beforeFile, key) && has(afterFile, key);
   const isChangedKey = key => beforeFile[key] !== afterFile[key];
 
   const keys = union(Object.keys(beforeFile), Object.keys(afterFile));
