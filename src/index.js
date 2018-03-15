@@ -2,7 +2,8 @@
 import { readFileSync } from 'fs';
 import { extname } from 'path';
 import parse from './parser';
-import getDifference from './getDiff';
+import makeAST from './AST';
+import render from './render';
 
 export default (beforeFilePath, afterFilePath) => {
   const beforeFile = readFileSync(beforeFilePath, 'utf-8');
@@ -11,5 +12,7 @@ export default (beforeFilePath, afterFilePath) => {
   const parsedBeforeFile = parse(beforeFile, extname(beforeFilePath));
   const parsedAfterFile = parse(afterFile, extname(afterFilePath));
 
-  return getDifference(parsedBeforeFile, parsedAfterFile);
+  const ast = makeAST(parsedBeforeFile, parsedAfterFile);
+
+  return render(ast);
 };
