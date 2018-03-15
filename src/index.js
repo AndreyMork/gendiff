@@ -3,15 +3,16 @@ import { readFileSync } from 'fs';
 import { extname } from 'path';
 import parse from './parser';
 import getDifference from './getDiff';
-
-const getFileAsStr = filepath => readFileSync(filepath, 'utf-8');
+import ast from './AST';
 
 export default (beforeFilePath, afterFilePath) => {
-  const beforeFile = getFileAsStr(beforeFilePath);
-  const afterFile = getFileAsStr(afterFilePath);
+  const beforeFile = readFileSync(beforeFilePath, 'utf-8');
+  const afterFile = readFileSync(afterFilePath, 'utf-8');
 
   const parsedBeforeFile = parse(beforeFile, extname(beforeFilePath));
   const parsedAfterFile = parse(afterFile, extname(afterFilePath));
+
+  ast(parsedBeforeFile, parsedAfterFile);
 
   return getDifference(parsedBeforeFile, parsedAfterFile);
 };
