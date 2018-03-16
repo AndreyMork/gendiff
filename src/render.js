@@ -1,60 +1,42 @@
 import { flatten, trimEnd, isObject } from 'lodash';
 
-const indent = ' '.repeat(2);
-const doubleIndent = indent.repeat(2);
+const indentStr = ' '.repeat(4);
 
 const objToString = (obj, depth) => {
-  const getValue = key => (isObject(obj[key]) ? objToString(obj[key], depth + 1) : obj[key]);
-  const identation = doubleIndent.repeat(depth);
+  const getValueString = key => (isObject(obj[key]) ? objToString(obj[key], depth + 1) : obj[key]);
+  const indentation = indentStr.repeat(depth);
+
   const strings = Object.keys(obj).map(key =>
-    trimEnd(`${identation}${key}: ${getValue(key)}`));
+    trimEnd(`${indentation}${key}: ${getValueString(key)}`));
 
-  const closingBracket = `${doubleIndent.repeat(depth - 1)}}`;
-  const res = ['{', ...strings, closingBracket].join('\n');
-
-  return res;
+  const closingBracket = `${indentStr.repeat(depth - 1)}}`;
+  return ['{', ...strings, closingBracket].join('\n');
 };
 
-const makeAddStr = (key, value, depth) => {
+const makePlainStr = (key, value, type, depth) => {
   const val = isObject(value) ? objToString(value, depth + 1) : value;
-  const identation = `${doubleIndent.repeat(depth - 1)}${indent}`;
-  return trimEnd(`${identation}+ ${key}: ${val}`);
-};
+  const indentation = `${indentStr.repeat(depth - 1)}  `;
+  const sign = { add: '+ ', remove: '- ', common: '  ' };
 
-const makeRemoveStr = (key, value, depth) => {
-  const val = isObject(value) ? objToString(value, depth + 1) : value;
-  const identation = `${doubleIndent.repeat(depth - 1)}${indent}`;
-  return trimEnd(`${identation}- ${key}: ${val}`);
-};
-
-const makeCommonStr = (key, value, depth) => {
-  const val = isObject(value) ? objToString(value, depth + 1) : value;
-  const identation = doubleIndent.repeat(depth);
-  return trimEnd(`${identation}${key}: ${val}`);
-};
-
-const makeNestedStr = (key, childrenAsStr, depth) => {
-  const identation = doubleIndent.repeat(depth);
-  return `${identation}${key}: ${childrenAsStr}`;
-};
-
-const getStr = {
-  add: makeAddStr,
-  remove: makeRemoveStr,
-  common: makeCommonStr,
-  change: (key, value, depth) => [
-    makeAddStr(key, value.after, depth),
-    makeRemoveStr(key, value.before, depth),
-  ],
-  nested: makeNestedStr,
+  return trimEnd(`${indentation}${sign[type]}${key}: ${val}`);
 };
 
 const render = (ast, depth = 1) => {
-  const strings = flatten(ast.map(node => (node.type === 'nested' ?
-    getStr[node.type](node.key, render(node.children, depth + 1), depth) :
-    getStr[node.type](node.key, node.value, depth))));
+  const strings = flatten(ast.map((node) => {
+    if (node.type === 'nested') {
+      const indentation = indentStr.repeat(depth);
+      return trimEnd(`${indentation}${node.key}: ${render(node.children, depth + 1)}`);
+    } else if (node.type === 'change') {
+      return [
+        makePlainStr(node.key, node.value.after, 'add', depth),
+        makePlainStr(node.key, node.value.before, 'remove', depth),
+      ];
+    }
 
-  const closingBracket = `${doubleIndent.repeat(depth - 1)}}`;
+    return makePlainStr(node.key, node.value, node.type, depth);
+  }));
+
+  const closingBracket = `${indentStr.repeat(depth - 1)}}`;
   return ['{', ...strings, closingBracket].join('\n');
 };
 
