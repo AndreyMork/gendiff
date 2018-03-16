@@ -3,34 +3,50 @@ import { flatten, trimEnd, isObject } from 'lodash';
 const indent = ' '.repeat(2);
 const doubleIndent = indent.repeat(2);
 
-const objToString = (obj, level) => {
+const objToString = (obj, depth) => {
   const keys = Object.keys(obj);
-  const strings = keys.map(key => `${doubleIndent.repeat(level)}${key}: ${isObject(obj[key]) ? objToString(obj[key], level + 1) : obj[key]}`);
+  const strings = keys.map(key => `${doubleIndent.repeat(depth)}${key}: ${isObject(obj[key]) ? objToString(obj[key], depth + 1) : obj[key]}`);
 
-  const res = ['{', ...strings, `${doubleIndent.repeat(level - 1)}}`].join('\n');
+  const res = ['{', ...strings, `${doubleIndent.repeat(depth - 1)}}`].join('\n');
 
   return res;
 };
 
-const makeAddStr = (key, value, level) => trimEnd(`${indent.repeat((level * 2) - 1)}+ ${key}: ${isObject(value) ? objToString(value, level + 1) : value}`);
-const makeRemoveStr = (key, value, level) => trimEnd(`${indent.repeat((level * 2) - 1)}- ${key}: ${isObject(value) ? objToString(value, level + 1) : value}`);
-const makeCommonStr = (key, value, level) => trimEnd(`${doubleIndent.repeat(level)}${key}: ${isObject(value) ? objToString(value, level + 1) : value}`);
-
-const getStr = {
-  add: (key, value, level) => makeAddStr(key, value, level),
-  remove: (key, value, level) => makeRemoveStr(key, value, level),
-  common: (key, value, level) => makeCommonStr(key, value, level),
-  change: (key, value, level) => [makeAddStr(key, value.after, level),
-    makeRemoveStr(key, value.before, level)],
-  obj: (key, childrenAsStr, level) => `${doubleIndent.repeat(level)}${key}: ${childrenAsStr}`,
+const makeAddStr = (key, value, depth) => {
+  const val = isObject(value) ? objToString(value, depth + 1) : value;
+  const identation = `${doubleIndent.repeat(depth - 1)}${indent}`;
+  return trimEnd(`${identation}+ ${key}: ${val}`);
 };
 
-const render = (ast, level = 1) => {
+const makeRemoveStr = (key, value, depth) => {
+  const val = isObject(value) ? objToString(value, depth + 1) : value;
+  const identation = `${doubleIndent.repeat(depth - 1)}${indent}`;
+  return trimEnd(`${identation}- ${key}: ${val}`);
+};
+
+const makeCommonStr = (key, value, depth) => {
+  const val = isObject(value) ? objToString(value, depth + 1) : value;
+  const identation = `${doubleIndent.repeat(depth)}`;
+  return trimEnd(`${identation}${key}: ${val}`);
+};
+
+const getStr = {
+  add: (key, value, depth) => makeAddStr(key, value, depth),
+  remove: (key, value, depth) => makeRemoveStr(key, value, depth),
+  common: (key, value, depth) => makeCommonStr(key, value, depth),
+  change: (key, value, depth) => [
+    makeAddStr(key, value.after, depth),
+    makeRemoveStr(key, value.before, depth),
+  ],
+  obj: (key, childrenAsStr, depth) => `${doubleIndent.repeat(depth)}${key}: ${childrenAsStr}`,
+};
+
+const render = (ast, depth = 1) => {
   const strings = flatten(ast.map(({
     type, key, value, children,
   }) =>
-    (type === 'obj' ? getStr[type](key, render(children, level + 1), level) : getStr[type](key, value, level))));
-  return ['{', ...strings, `${doubleIndent.repeat(level - 1)}}${level === 1 ? '\n' : ''}`].join('\n');
+    (type === 'obj' ? getStr[type](key, render(children, depth + 1), depth) : getStr[type](key, value, depth))));
+  return ['{', ...strings, `${doubleIndent.repeat(depth - 1)}}`].join('\n');
 };
 
 export default render;

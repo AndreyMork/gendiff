@@ -26,7 +26,7 @@ const makeAst = (beforeObj, afterObj) => {
     remove: key => ({ key, type: 'remove', value: beforeObj[key] }),
     common: key => ({ key, type: 'common', value: afterObj[key] }),
     change: key => ({ key, type: 'change', value: { before: beforeObj[key], after: afterObj[key] } }),
-    twoObj: key => ({ key, type: 'obj', children: makeAst(beforeObj[key], afterObj[key]) }),
+    twoObj: key => ({ key, type: 'nested', children: makeAst(beforeObj[key], afterObj[key]) }),
     oneObj: key => [{ key, type: 'remove', value: beforeObj[key] }, { key, type: 'add', value: afterObj[key] }],
   };
 
