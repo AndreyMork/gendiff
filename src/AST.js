@@ -1,5 +1,25 @@
 import { union, has, isObject, flatten } from 'lodash';
 
+const getKeyType = (key, beforeObj, afterObj) => {
+  const isBothObj = isObject(beforeObj[key]) && isObject(afterObj[key]);
+  const isRemoved = has(beforeObj, key) && !has(afterObj, key);
+  const isAdded = !has(beforeObj, key) && has(afterObj, key);
+  const isChanged = beforeObj[key] !== afterObj[key];
+  const oneIsObj = isObject(beforeObj[key]) || isObject(afterObj[key]);
+
+  if (isBothObj) {
+    return 'twoObj';
+  } else if (isAdded) {
+    return 'add';
+  } else if (isRemoved) {
+    return 'remove';
+  } else if (oneIsObj) {
+    return 'oneObj';
+  }
+
+  return isChanged ? 'change' : 'common';
+};
+
 const makeAst = (beforeObj, afterObj) => {
   const makeNode = {
     add: key => ({ key, type: 'add', value: afterObj[key] }),
@@ -10,28 +30,12 @@ const makeAst = (beforeObj, afterObj) => {
     oneObj: key => [{ key, type: 'remove', value: beforeObj[key] }, { key, type: 'add', value: afterObj[key] }],
   };
 
-  const isBothObj = key => isObject(beforeObj[key]) && isObject(afterObj[key]);
-  const isRemoved = key => has(beforeObj, key) && !has(afterObj, key);
-  const isAdded = key => !has(beforeObj, key) && has(afterObj, key);
-  const isChanged = key => beforeObj[key] !== afterObj[key];
-  const oneIsObj = key => isObject(beforeObj[key]) || isObject(afterObj[key]);
-
-  const getKeyType = (key) => {
-    if (isBothObj(key)) {
-      return 'twoObj';
-    } else if (isAdded(key)) {
-      return 'add';
-    } else if (isRemoved(key)) {
-      return 'remove';
-    } else if (oneIsObj(key)) {
-      return 'oneObj';
-    }
-
-    return isChanged(key) ? 'change' : 'common';
-  };
-
   const keys = union(Object.keys(beforeObj), Object.keys(afterObj));
-  return flatten(keys.map(key => makeNode[getKeyType(key)](key)));
+
+  return flatten(keys.map((key) => {
+    const type = getKeyType(key, beforeObj, afterObj);
+    return makeNode[type](key);
+  }));
 };
 
 export default makeAst;
