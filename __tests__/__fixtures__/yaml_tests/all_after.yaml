@@ -4,3 +4,5 @@ empty: ""
 new2: added
 change2: changed
 change: changed
+num: 123
+bool: true

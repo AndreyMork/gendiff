@@ -9,4 +9,6 @@
   - remove2: removed
   + new: added
   + new2: added
+  + num: 123
+  + bool: true
 }

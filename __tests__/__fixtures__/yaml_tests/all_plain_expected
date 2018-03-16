@@ -1,0 +1,8 @@
+Property 'change' was updated. From 'not changed' to 'changed'
+Property 'change2' was updated. From 'not changed' to 'changed'
+Property 'remove' was removed
+Property 'remove2' was removed
+Property 'new' was added with value: 'added'
+Property 'new2' was added with value: 'added'
+Property 'num' was added with value: 123
+Property 'bool' was added with value: true
