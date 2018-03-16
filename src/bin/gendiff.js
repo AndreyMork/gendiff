@@ -9,5 +9,12 @@ program
   .arguments('<firstConfig>')
   .arguments('<secondConfig>')
   .option('-f, --format [type]', 'output format')
-  .action((firstConfig, secondConfig) => console.log(gendiff(firstConfig, secondConfig)))
+  .action((firstConfig, secondConfig) => {
+    if (program.format === 'plain') {
+      return console.log(gendiff(firstConfig, secondConfig, 'plain'));
+    }
+
+    console.log(gendiff(firstConfig, secondConfig));
+    return null;
+  })
   .parse(process.argv);
