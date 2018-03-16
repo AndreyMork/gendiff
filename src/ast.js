@@ -25,7 +25,12 @@ const makeAst = (beforeObj, afterObj) => {
     added: key => ({ key, type: 'added', value: afterObj[key] }),
     removed: key => ({ key, type: 'removed', value: beforeObj[key] }),
     common: key => ({ key, type: 'common', value: afterObj[key] }),
-    changed: key => ({ key, type: 'changed', value: { before: beforeObj[key], after: afterObj[key] } }),
+    changed: key => ({
+      key,
+      type: 'changed',
+      valueBefore: beforeObj[key],
+      valueAfter: afterObj[key],
+    }),
     nested: key => ({ key, type: 'nested', children: makeAst(beforeObj[key], afterObj[key]) }),
     oneObj: key => [{ key, type: 'removed', value: beforeObj[key] }, { key, type: 'added', value: afterObj[key] }],
   };
