@@ -14,11 +14,11 @@ const objToString = (obj, depth) => {
 };
 
 const makePlainStr = (key, value, type, depth) => {
-  const val = isObject(value) ? objToString(value, depth + 1) : value;
+  const valueStr = isObject(value) ? objToString(value, depth + 1) : value;
   const indentation = `${indentStr.repeat(depth - 1)}  `;
   const sign = { add: '+ ', remove: '- ', common: '  ' };
 
-  return trimEnd(`${indentation}${sign[type]}${key}: ${val}`);
+  return trimEnd(`${indentation}${sign[type]}${key}: ${valueStr}`);
 };
 
 const render = (ast, depth = 1) => {
