@@ -21,4 +21,4 @@ watch-test:
 	npm run watch-test
 
 gendiff:
-	npm run babel-node -- src/bin/gendiff.js __tests__/__fixtures__/json_tests/hexlet_before.json __tests__/__fixtures__/json_tests/hexlet_after.json
+	npm run babel-node -- src/bin/gendiff.js __tests__/__fixtures__/json_tests/hexletNested_before.json __tests__/__fixtures__/json_tests/hexletNested_after.json
