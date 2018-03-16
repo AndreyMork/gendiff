@@ -36,7 +36,7 @@ const render = (ast, depth = 1) => {
     return makePlainStr(node.key, node.value, node.type, depth);
   }));
 
-  const closingBracket = `${indentStr.repeat(depth - 1)}}`;
+  const closingBracket = `${indentStr.repeat(depth - 1)}}\n`;
   return ['{', ...strings, closingBracket].join('\n');
 };
 
