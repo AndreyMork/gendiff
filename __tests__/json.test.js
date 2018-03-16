@@ -4,9 +4,9 @@ import getDiff from '../src';
 
 const pathTo = filename => `${__dirname}/__fixtures__/json_tests/${filename}`;
 
-test('hexlet', () => {
-  const expected = trimEnd(readFileSync(pathTo('hexlet_expected'), 'utf-8'));
-  expect(getDiff(pathTo('hexlet_before.json'), pathTo('hexlet_after.json'))).toBe(expected);
+test('hexletNested', () => {
+  const expected = trimEnd(readFileSync(pathTo('hexletNested_expected'), 'utf-8'));
+  expect(getDiff(pathTo('hexletNested_before.json'), pathTo('hexletNested_after.json'))).toBe(expected);
 });
 
 test('all', () => {

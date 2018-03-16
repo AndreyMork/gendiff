@@ -4,9 +4,9 @@ import getDiff from '../src';
 
 const pathTo = filename => `${__dirname}/__fixtures__/yaml_tests/${filename}`;
 
-test('hexlet', () => {
-  const expected = trimEnd(readFileSync(pathTo('hexlet_expected'), 'utf-8'));
-  expect(getDiff(pathTo('hexlet_before.yaml'), pathTo('hexlet_after.yaml'))).toBe(expected);
+test('hexletNested', () => {
+  const expected = trimEnd(readFileSync(pathTo('hexletNested_expected'), 'utf-8'));
+  expect(getDiff(pathTo('hexletNested_before.yaml'), pathTo('hexletNested_after.yaml'))).toBe(expected);
 });
 
 test('all', () => {
