@@ -28,8 +28,8 @@ const render = (ast, depth = 1) => {
       return trimEnd(`${indentation}${node.key}: ${render(node.children, depth + 1)}`);
     } else if (node.type === 'changed') {
       return [
-        makePlainStr(node.key, node.value.after, 'added', depth),
-        makePlainStr(node.key, node.value.before, 'removed', depth),
+        makePlainStr(node.key, node.valueAfter, 'added', depth),
+        makePlainStr(node.key, node.valueBefore, 'removed', depth),
       ];
     }
 
