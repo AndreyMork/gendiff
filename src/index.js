@@ -2,9 +2,9 @@ import { readFileSync } from 'fs';
 import { extname } from 'path';
 import parse from './parser';
 import makeAST from './ast';
-import render from './render';
+import render from './renderer';
 
-export default (beforeFilePath, afterFilePath) => {
+export default (beforeFilePath, afterFilePath, format = 'json') => {
   const beforeFile = readFileSync(beforeFilePath, 'utf-8');
   const afterFile = readFileSync(afterFilePath, 'utf-8');
 
@@ -13,5 +13,5 @@ export default (beforeFilePath, afterFilePath) => {
 
   const ast = makeAST(parsedBeforeFile, parsedAfterFile);
 
-  return render(ast);
+  return render(ast, format);
 };
