@@ -3,6 +3,11 @@ import program from 'commander';
 import gendiff from '../';
 import { version } from '../../package.json';
 
+const actions = {
+  plain: (first, second) => console.log(gendiff(first, second, 'plain')),
+  json: (first, second) => console.log(gendiff(first, second, 'json')),
+};
+
 program
   .description('Compares two configuration files and shows the difference.\n  Supported formats: "json, yaml, ini".')
   .version(version)
@@ -10,11 +15,13 @@ program
   .arguments('<secondConfig>')
   .option('-f, --format [type]', 'output format')
   .action((firstConfig, secondConfig) => {
-    if (program.format === 'plain') {
-      return console.log(gendiff(firstConfig, secondConfig, 'plain'));
+    const action = actions[program.format];
+    if (!action) {
+      console.log(gendiff(firstConfig, secondConfig));
+    } else {
+      action(firstConfig, secondConfig);
     }
 
-    console.log(gendiff(firstConfig, secondConfig));
     return null;
   })
   .parse(process.argv);
