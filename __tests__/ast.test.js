@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import parse from '../src/parser';
-import ast from '../src/AST';
+import ast from '../src/ast';
 
 const pathTo = filename => `${__dirname}/__fixtures__/ast_tests/${filename}`;
 const expected = [

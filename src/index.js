@@ -2,7 +2,7 @@
 import { readFileSync } from 'fs';
 import { extname } from 'path';
 import parse from './parser';
-import makeAST from './AST';
+import makeAST from './ast';
 import render from './render';
 
 export default (beforeFilePath, afterFilePath) => {
