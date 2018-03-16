@@ -11,14 +11,12 @@ const actions = {
   added: 'was added with',
   removed: 'was removed',
   changed: 'was updated. From',
-  nested: 'is nested',
 };
 
 const getValue = {
   added: node => (isObject(node.value) ? stringify(node.value) : `value: ${stringify(node.value)}`),
   removed: () => '',
   changed: node => `${stringify(node.valueBefore)} to ${stringify(node.valueAfter)}`,
-  nested: () => '',
 };
 
 const render = (ast, nestedIn = '') => {
