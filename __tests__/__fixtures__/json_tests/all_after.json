@@ -1,7 +1,7 @@
 {
   "not-change": "still the same",
   "new": "added",
-  "not-change2": "still the same",
+  "empty": "",
   "new2": "added",
   "change2": "changed",
   "change": "changed"
