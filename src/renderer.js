@@ -1,8 +1,8 @@
-import renderUnformatted from './renderers/unformatedRenderer';
+import renderRaw from './renderers/rawRenderer';
 import renderPlain from './renderers/plainRenderer';
 
 const renderers = {
-  unformatted: renderUnformatted,
+  raw: renderRaw,
   plain: renderPlain,
 };
 
