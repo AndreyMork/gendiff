@@ -8,26 +8,26 @@ const oneIsObj = (key, beforeObj, afterObj) => isObject(beforeObj[key]) || isObj
 
 const getKeyType = (key, beforeObj, afterObj) => {
   if (isBothObj(key, beforeObj, afterObj)) {
-    return 'twoObj';
+    return 'nested';
   } else if (isAdded(key, beforeObj, afterObj)) {
-    return 'add';
+    return 'added';
   } else if (isRemoved(key, beforeObj, afterObj)) {
-    return 'remove';
+    return 'removed';
   } else if (oneIsObj(key, beforeObj, afterObj)) {
     return 'oneObj';
   }
 
-  return isChanged(key, beforeObj, afterObj) ? 'change' : 'common';
+  return isChanged(key, beforeObj, afterObj) ? 'changed' : 'common';
 };
 
 const makeAst = (beforeObj, afterObj) => {
   const makeNode = {
-    add: key => ({ key, type: 'add', value: afterObj[key] }),
-    remove: key => ({ key, type: 'remove', value: beforeObj[key] }),
+    added: key => ({ key, type: 'added', value: afterObj[key] }),
+    removed: key => ({ key, type: 'removed', value: beforeObj[key] }),
     common: key => ({ key, type: 'common', value: afterObj[key] }),
-    change: key => ({ key, type: 'change', value: { before: beforeObj[key], after: afterObj[key] } }),
-    twoObj: key => ({ key, type: 'nested', children: makeAst(beforeObj[key], afterObj[key]) }),
-    oneObj: key => [{ key, type: 'remove', value: beforeObj[key] }, { key, type: 'add', value: afterObj[key] }],
+    changed: key => ({ key, type: 'changed', value: { before: beforeObj[key], after: afterObj[key] } }),
+    nested: key => ({ key, type: 'nested', children: makeAst(beforeObj[key], afterObj[key]) }),
+    oneObj: key => [{ key, type: 'removed', value: beforeObj[key] }, { key, type: 'added', value: afterObj[key] }],
   };
 
   const keys = union(Object.keys(beforeObj), Object.keys(afterObj));

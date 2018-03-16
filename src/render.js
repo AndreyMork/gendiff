@@ -16,7 +16,7 @@ const objToString = (obj, depth) => {
 const makePlainStr = (key, value, type, depth) => {
   const valueStr = isObject(value) ? objToString(value, depth + 1) : value;
   const indentation = `${indentStr.repeat(depth - 1)}  `;
-  const sign = { add: '+ ', remove: '- ', common: '  ' };
+  const sign = { added: '+ ', removed: '- ', common: '  ' };
 
   return trimEnd(`${indentation}${sign[type]}${key}: ${valueStr}`);
 };
@@ -26,10 +26,10 @@ const render = (ast, depth = 1) => {
     if (node.type === 'nested') {
       const indentation = indentStr.repeat(depth);
       return trimEnd(`${indentation}${node.key}: ${render(node.children, depth + 1)}`);
-    } else if (node.type === 'change') {
+    } else if (node.type === 'changed') {
       return [
-        makePlainStr(node.key, node.value.after, 'add', depth),
-        makePlainStr(node.key, node.value.before, 'remove', depth),
+        makePlainStr(node.key, node.value.after, 'added', depth),
+        makePlainStr(node.key, node.value.before, 'removed', depth),
       ];
     }
 
