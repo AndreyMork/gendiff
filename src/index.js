@@ -1,4 +1,3 @@
-#! /usr/bin/env node
 import { readFileSync } from 'fs';
 import { extname } from 'path';
 import parse from './parser';
