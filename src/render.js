@@ -4,10 +4,13 @@ const indent = ' '.repeat(2);
 const doubleIndent = indent.repeat(2);
 
 const objToString = (obj, depth) => {
-  const keys = Object.keys(obj);
-  const strings = keys.map(key => `${doubleIndent.repeat(depth)}${key}: ${isObject(obj[key]) ? objToString(obj[key], depth + 1) : obj[key]}`);
+  const getValue = key => (isObject(obj[key]) ? objToString(obj[key], depth + 1) : obj[key]);
+  const identation = doubleIndent.repeat(depth);
+  const strings = Object.keys(obj).map(key =>
+    trimEnd(`${identation}${key}: ${getValue(key)}`));
 
-  const res = ['{', ...strings, `${doubleIndent.repeat(depth - 1)}}`].join('\n');
+  const closingBracket = `${doubleIndent.repeat(depth - 1)}}`;
+  const res = ['{', ...strings, closingBracket].join('\n');
 
   return res;
 };
@@ -26,27 +29,33 @@ const makeRemoveStr = (key, value, depth) => {
 
 const makeCommonStr = (key, value, depth) => {
   const val = isObject(value) ? objToString(value, depth + 1) : value;
-  const identation = `${doubleIndent.repeat(depth)}`;
+  const identation = doubleIndent.repeat(depth);
   return trimEnd(`${identation}${key}: ${val}`);
 };
 
+const makeNestedStr = (key, childrenAsStr, depth) => {
+  const identation = doubleIndent.repeat(depth);
+  return `${identation}${key}: ${childrenAsStr}`;
+};
+
 const getStr = {
-  add: (key, value, depth) => makeAddStr(key, value, depth),
-  remove: (key, value, depth) => makeRemoveStr(key, value, depth),
-  common: (key, value, depth) => makeCommonStr(key, value, depth),
+  add: makeAddStr,
+  remove: makeRemoveStr,
+  common: makeCommonStr,
   change: (key, value, depth) => [
     makeAddStr(key, value.after, depth),
     makeRemoveStr(key, value.before, depth),
   ],
-  obj: (key, childrenAsStr, depth) => `${doubleIndent.repeat(depth)}${key}: ${childrenAsStr}`,
+  nested: makeNestedStr,
 };
 
 const render = (ast, depth = 1) => {
-  const strings = flatten(ast.map(({
-    type, key, value, children,
-  }) =>
-    (type === 'obj' ? getStr[type](key, render(children, depth + 1), depth) : getStr[type](key, value, depth))));
-  return ['{', ...strings, `${doubleIndent.repeat(depth - 1)}}`].join('\n');
+  const strings = flatten(ast.map(node => (node.type === 'nested' ?
+    getStr[node.type](node.key, render(node.children, depth + 1), depth) :
+    getStr[node.type](node.key, node.value, depth))));
+
+  const closingBracket = `${doubleIndent.repeat(depth - 1)}}`;
+  return ['{', ...strings, closingBracket].join('\n');
 };
 
 export default render;
