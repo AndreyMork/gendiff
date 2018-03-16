@@ -1,8 +1,8 @@
-import renderJson from './renderers/jsonRenderer';
+import renderUnformatted from './renderers/unformatedRenderer';
 import renderPlain from './renderers/plainRenderer';
 
 const renderers = {
-  json: renderJson,
+  unformatted: renderUnformatted,
   plain: renderPlain,
 };
 

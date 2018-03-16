@@ -4,7 +4,7 @@ import parse from './parser';
 import makeAST from './ast';
 import render from './renderer';
 
-export default (beforeFilePath, afterFilePath, format = 'json') => {
+export default (beforeFilePath, afterFilePath, format = 'unformatted') => {
   const beforeFile = readFileSync(beforeFilePath, 'utf-8');
   const afterFile = readFileSync(afterFilePath, 'utf-8');
 
