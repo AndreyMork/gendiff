@@ -13,8 +13,6 @@ const getKeyType = (key, beforeObj, afterObj) => {
     return 'add';
   } else if (isRemoved(key, beforeObj, afterObj)) {
     return 'remove';
-  } else if (oneIsObj(key, beforeObj, afterObj)) {
-    return 'oneObj';
   }
 
   return isChanged(key, beforeObj, afterObj) ? 'change' : 'common';
@@ -27,7 +25,7 @@ const makeAst = (beforeObj, afterObj) => {
     common: key => ({ key, type: 'common', value: afterObj[key] }),
     change: key => ({ key, type: 'change', value: { before: beforeObj[key], after: afterObj[key] } }),
     twoObj: key => ({ key, type: 'obj', children: makeAst(beforeObj[key], afterObj[key]) }),
-    oneObj: key => [{ key, type: 'remove', value: beforeObj[key] }, { key, type: 'add', value: afterObj[key] }],
+    // oneObj: key => [{ key, type: 'remove', value: beforeObj[key] }, { key, type: 'add', value: afterObj[key] }],
   };
 
   const keys = union(Object.keys(beforeObj), Object.keys(afterObj));
