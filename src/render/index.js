@@ -1,8 +1,10 @@
-import { renderRaw, renderPlain, renderJson } from './renderers';
+import renderPlain from './plain';
+import renderRaw from './raw';
+import renderJson from './json';
 
 const renderers = {
-  raw: renderRaw,
   plain: renderPlain,
+  raw: renderRaw,
   json: renderJson,
 };
 
