@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { extname } from 'path';
 import parse from './parser';
 import makeAST from './ast';
-import render from './renderer';
+import render from './render';
 
 export default (beforeFilePath, afterFilePath, format = 'raw') => {
   const beforeFile = readFileSync(beforeFilePath, 'utf-8');

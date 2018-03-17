@@ -1,9 +1,9 @@
-import renderRaw from './renderers/rawRenderer';
-import renderPlain from './renderers/plainRenderer';
+import { renderRaw, renderPlain, renderJson } from './renderers';
 
 const renderers = {
   raw: renderRaw,
   plain: renderPlain,
+  json: renderJson,
 };
 
 export default (ast, format) => renderers[format](ast);
