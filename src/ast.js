@@ -5,7 +5,6 @@ const isRemoved = (key, beforeObj, afterObj) => has(beforeObj, key) && !has(afte
 const isAdded = (key, beforeObj, afterObj) => !has(beforeObj, key) && has(afterObj, key);
 const isChanged = (key, beforeObj, afterObj) => beforeObj[key] !== afterObj[key];
 
-// TODO object polymorph
 const getKeyType = (key, beforeObj, afterObj) => {
   if (isBothObj(key, beforeObj, afterObj)) {
     return 'nested';
@@ -18,7 +17,6 @@ const getKeyType = (key, beforeObj, afterObj) => {
   return isChanged(key, beforeObj, afterObj) ? 'changed' : 'common';
 };
 
-// TODO array
 const makeAst = (beforeObj, afterObj) => {
   const makeNode = {
     added: key => ({ key, type: 'added', value: afterObj[key] }),
