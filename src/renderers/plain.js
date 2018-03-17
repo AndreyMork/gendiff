@@ -1,4 +1,4 @@
-import { trimEnd, isObject, isString } from 'lodash';
+import { isObject, isString } from 'lodash';
 
 const stringify = (value) => {
   if (isObject(value)) {
@@ -7,33 +7,21 @@ const stringify = (value) => {
   return isString(value) ? `'${value}'` : `${value}`;
 };
 
-const actions = {
-  added: 'was added with',
-  removed: 'was removed',
-  changed: 'was updated. From',
-};
-
-const getValue = {
-  added: node => (isObject(node.value) ? stringify(node.value) : `value: ${stringify(node.value)}`),
-  removed: () => '',
-  changed: node => `${stringify(node.valueBefore)} to ${stringify(node.valueAfter)}`,
-};
-
 const render = (ast, nestedIn = '') => {
-  const strings = ast.map((node) => {
-    if (node.type === 'common') {
-      return '';
-    } else if (node.type === 'nested') {
-      return render(node.children, `${nestedIn}${node.key}.`);
-    }
+  const makeString = {
+    common: () => '',
+    nested: node => render(node.children, `${nestedIn}${node.key}.`),
+    added: (node) => {
+      const stringified = stringify(node.value);
+      const valueStr = stringified === 'complex value' ? stringified : `value: ${stringified}`;
+      return `Property '${nestedIn}${node.key}' was added with ${valueStr}`;
+    },
+    removed: node => `Property '${nestedIn}${node.key}' was removed`,
+    changed: node =>
+      `Property '${nestedIn}${node.key}' was updated. From ${stringify(node.valueBefore)} to ${stringify(node.valueAfter)}`,
+  };
 
-    const name = `Property '${nestedIn}${node.key}'`;
-    const action = actions[node.type];
-    const value = getValue[node.type](node);
-
-    return trimEnd([name, action, value].join(' '));
-  });
-
+  const strings = ast.map(node => makeString[node.type](node));
   return strings.filter(e => e).join('\n');
 };
 
