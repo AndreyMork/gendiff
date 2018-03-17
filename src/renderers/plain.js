@@ -11,14 +11,14 @@ const render = (ast, nestedIn = '') => {
   const makeString = {
     common: () => '',
     nested: node => render(node.children, `${nestedIn}${node.key}.`),
+    removed: node => `Property '${nestedIn}${node.key}' was removed`,
+    changed: node =>
+      `Property '${nestedIn}${node.key}' was updated. From ${stringify(node.valueBefore)} to ${stringify(node.valueAfter)}`,
     added: (node) => {
       const stringified = stringify(node.value);
       const valueStr = stringified === 'complex value' ? stringified : `value: ${stringified}`;
       return `Property '${nestedIn}${node.key}' was added with ${valueStr}`;
     },
-    removed: node => `Property '${nestedIn}${node.key}' was removed`,
-    changed: node =>
-      `Property '${nestedIn}${node.key}' was updated. From ${stringify(node.valueBefore)} to ${stringify(node.valueAfter)}`,
   };
 
   const strings = ast.map(node => makeString[node.type](node));
