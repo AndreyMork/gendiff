@@ -9,7 +9,6 @@ const stringify = (value, depth) => {
 
   const strings = Object.keys(value).map(key =>
     `${indent.repeat(depth + 1)}${key}: ${stringify(value[key], depth + 1)}`);
-
   const closingBracket = `${indent.repeat(depth)}}`;
   return ['{', ...strings, closingBracket].join('\n');
 };
