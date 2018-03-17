@@ -32,7 +32,6 @@ const makeAst = (beforeObj, afterObj) => {
   };
 
   const keys = union(Object.keys(beforeObj), Object.keys(afterObj));
-
   return keys.map((key) => {
     const type = getKeyType(key, beforeObj, afterObj);
     return makeNode[type](key);
