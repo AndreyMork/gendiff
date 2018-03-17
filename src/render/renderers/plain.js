@@ -15,8 +15,7 @@ const render = (ast, nestedIn = '') => {
     changed: node =>
       `Property '${nestedIn}${node.key}' was updated. From ${stringify(node.valueBefore)} to ${stringify(node.valueAfter)}`,
     added: (node) => {
-      const stringified = stringify(node.value);
-      const valueStr = stringified === 'complex value' ? stringified : `value: ${stringified}`;
+      const valueStr = isObject(value.node) ? stringify(node.value) : `value: ${stringify(node.value)}`;
       return `Property '${nestedIn}${node.key}' was added with ${valueStr}`;
     },
   };
