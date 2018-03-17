@@ -6,4 +6,13 @@ const renderers = {
   json: renderJson,
 };
 
-export default (ast, format) => renderers[format](ast);
+export const formatTypes = Object.keys(renderers);
+
+export default (ast, format) => {
+  const render = renderers[format];
+  if (!render) {
+    return `'${format}' is unknown format type.\n format types: ${formatTypes.join(', ')}`;
+  }
+
+  return render(ast);
+};
