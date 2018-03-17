@@ -14,19 +14,22 @@ const stringify = (value, depth) => {
   return ['{', ...strings, closingBracket].join('\n');
 };
 
+const buildString = (key, value, actionStr, depth) =>
+  `${indent.repeat(depth)}${actionStr}${key}: ${stringify(value, depth + 1)}`;
+
 const render = (ast, depth = 0) => {
-  const makeString = {
-    common: node => `${indent.repeat(depth + 1)}${node.key}: ${stringify(node.value, depth + 1)}`,
-    added: node => `${indent.repeat(depth)}  + ${node.key}: ${stringify(node.value, depth + 1)}`,
-    removed: node => `${indent.repeat(depth)}  - ${node.key}: ${stringify(node.value, depth + 1)}`,
+  const getString = {
+    common: node => buildString(node.key, node.value, indent, depth),
+    added: node => buildString(node.key, node.value, '  + ', depth),
+    removed: node => buildString(node.key, node.value, '  - ', depth),
     changed: node =>
-      `${indent.repeat(depth)}  + ${node.key}: ${stringify(node.valueAfter, depth + 1)}` +
-      `\n${indent.repeat(depth)}  - ${node.key}: ${stringify(node.valueBefore, depth + 1)}`,
+      `${buildString(node.key, node.valueAfter, '  + ', depth)}` +
+      `\n${buildString(node.key, node.valueBefore, '  - ', depth)}`,
     nested: node =>
       `${indent.repeat(depth + 1)}${node.key}: ${render(node.children, depth + 1)}`,
   };
 
-  const strings = ast.map(node => trimEnd(makeString[node.type](node)));
+  const strings = ast.map(node => trimEnd(getString[node.type](node)));
   const closingBracket = `${indent.repeat(depth)}}\n`;
   return ['{', ...strings, closingBracket].join('\n');
 };
