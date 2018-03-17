@@ -8,7 +8,7 @@ const stringify = (value) => {
 };
 
 const render = (ast, nestedIn = '') => {
-  const makeString = {
+  const getString = {
     common: () => '',
     nested: node => render(node.children, `${nestedIn}${node.key}.`),
     removed: node => `Property '${nestedIn}${node.key}' was removed`,
@@ -21,7 +21,7 @@ const render = (ast, nestedIn = '') => {
     },
   };
 
-  const strings = ast.map(node => makeString[node.type](node));
+  const strings = ast.map(node => getString[node.type](node));
   return strings.filter(e => e).join('\n');
 };
 
