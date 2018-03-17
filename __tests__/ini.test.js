@@ -23,3 +23,13 @@ test('plain all', () => {
   const expected = trimEnd(readFileSync(pathTo('all_plain_expected'), 'utf-8'));
   expect(getDiff(pathTo('all_before.ini'), pathTo('all_after.ini'), 'plain')).toBe(expected);
 });
+
+test('json hexletNested', () => {
+  const expected = trimEnd(readFileSync(pathTo('hexletNested_json_expected.json'), 'utf-8'));
+  expect(getDiff(pathTo('hexletNested_before.ini'), pathTo('hexletNested_after.ini'), 'json')).toBe(expected);
+});
+
+test('json all', () => {
+  const expected = trimEnd(readFileSync(pathTo('all_json_expected.json'), 'utf-8'));
+  expect(getDiff(pathTo('all_before.ini'), pathTo('all_after.ini'), 'json')).toBe(expected);
+});
