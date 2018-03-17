@@ -29,5 +29,8 @@ gendiff-plain:
 gendiff-json:
 	npm run babel-node -- src/bin/gendiff.js --format json __tests__/__fixtures__/json_tests/hexletNested_before.json __tests__/__fixtures__/json_tests/hexletNested_after.json
 
+gendiff-wrong:
+	npm run babel-node -- src/bin/gendiff.js --format wrong __tests__/__fixtures__/json_tests/hexletNested_before.json __tests__/__fixtures__/json_tests/hexletNested_after.json
+
 gendiff-h:
 	npm run babel-node -- src/bin/gendiff.js -h
