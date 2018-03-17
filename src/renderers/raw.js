@@ -1,42 +1,33 @@
-import { flatten, trimEnd, isObject } from 'lodash';
+import { trimEnd, isObject } from 'lodash';
 
-const indentStr = ' '.repeat(4);
+const indent = ' '.repeat(4);
 
-const objToString = (obj, depth) => {
-  const getValueString = key => (isObject(obj[key]) ? objToString(obj[key], depth + 1) : obj[key]);
-  const indentation = indentStr.repeat(depth);
+const stringify = (value, depth) => {
+  if (!isObject(value)) {
+    return value;
+  }
 
-  const strings = Object.keys(obj).map(key =>
-    trimEnd(`${indentation}${key}: ${getValueString(key)}`));
+  const strings = Object.keys(value).map(key =>
+    `${indent.repeat(depth + 1)}${key}: ${stringify(value[key], depth + 1)}`);
 
-  const closingBracket = `${indentStr.repeat(depth - 1)}}`;
+  const closingBracket = `${indent.repeat(depth)}}`;
   return ['{', ...strings, closingBracket].join('\n');
 };
 
-const makePlainStr = (key, value, type, depth) => {
-  const valueStr = isObject(value) ? objToString(value, depth + 1) : value;
-  const indentation = `${indentStr.repeat(depth - 1)}  `;
-  const sign = { added: '+ ', removed: '- ', common: '  ' };
+const render = (ast, depth = 0) => {
+  const makeString = {
+    common: node => `${indent.repeat(depth + 1)}${node.key}: ${stringify(node.value, depth + 1)}`,
+    added: node => `${indent.repeat(depth)}  + ${node.key}: ${stringify(node.value, depth + 1)}`,
+    removed: node => `${indent.repeat(depth)}  - ${node.key}: ${stringify(node.value, depth + 1)}`,
+    changed: node =>
+      `${indent.repeat(depth)}  + ${node.key}: ${stringify(node.valueAfter, depth + 1)}` +
+      `\n${indent.repeat(depth)}  - ${node.key}: ${stringify(node.valueBefore, depth + 1)}`,
+    nested: node =>
+      `${indent.repeat(depth + 1)}${node.key}: ${render(node.children, depth + 1)}`,
+  };
 
-  return trimEnd(`${indentation}${sign[type]}${key}: ${valueStr}`);
-};
-
-const render = (ast, depth = 1) => {
-  const strings = flatten(ast.map((node) => {
-    if (node.type === 'nested') {
-      const indentation = indentStr.repeat(depth);
-      return trimEnd(`${indentation}${node.key}: ${render(node.children, depth + 1)}`);
-    } else if (node.type === 'changed') {
-      return [
-        makePlainStr(node.key, node.valueAfter, 'added', depth),
-        makePlainStr(node.key, node.valueBefore, 'removed', depth),
-      ];
-    }
-
-    return makePlainStr(node.key, node.value, node.type, depth);
-  }));
-
-  const closingBracket = `${indentStr.repeat(depth - 1)}}\n`;
+  const strings = ast.map(node => trimEnd(makeString[node.type](node)));
+  const closingBracket = `${indent.repeat(depth)}}\n`;
   return ['{', ...strings, closingBracket].join('\n');
 };
 
