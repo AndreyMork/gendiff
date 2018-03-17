@@ -2,7 +2,7 @@
 import program from 'commander';
 import gendiff from '../';
 import { version } from '../../package.json';
-import { getOutputFormats } from '../renderers';
+import { getOutputFormats } from '../render';
 
 program
   .description('Compares two configuration files and shows the difference.\n  Supported formats: "json, yaml, ini".')
