@@ -20,8 +20,14 @@ ast-test:
 watch-test:
 	npm run watch-test
 
-gendiff:
+gendiff-raw:
 	npm run babel-node -- src/bin/gendiff.js __tests__/__fixtures__/json_tests/hexletNested_before.json __tests__/__fixtures__/json_tests/hexletNested_after.json
 
-gendiff2:
+gendiff-plain:
 	npm run babel-node -- src/bin/gendiff.js --format plain __tests__/__fixtures__/json_tests/hexletNested_before.json __tests__/__fixtures__/json_tests/hexletNested_after.json
+
+gendiff-json:
+	npm run babel-node -- src/bin/gendiff.js --format json __tests__/__fixtures__/json_tests/hexletNested_before.json __tests__/__fixtures__/json_tests/hexletNested_after.json
+
+gendiff-h:
+	npm run babel-node -- src/bin/gendiff.js -h
