@@ -8,10 +8,10 @@ const parsers = {
   '.ini': decode,
 };
 
-export default (file, ext) => {
+export default (string, ext) => {
   const parse = parsers[ext];
   if (!parse) {
     throw new Error(`'${ext}' is not supported`);
   }
-  return parse(file);
+  return parse(string);
 };
