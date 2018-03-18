@@ -11,12 +11,11 @@
   ],
   "scripts": {
     "babel-node": "babel-node",
-    "test": "jest",
+    "test": "jest --coverage",
     "eslint": "eslint",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build",
-    "watch-test": "jest --watch --notify",
-    "ast-test": "jest ast"
+    "watch-test": "jest --watch --notify"
   },
   "repository": {
     "type": "git",
