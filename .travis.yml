@@ -1,6 +1,12 @@
+addons:
+  code_climate:
+    repo_token:
+      secure: ZP+pT2J6WWZUxmlkoWkcW6MO8tLXeBJIuikmHu8rVZQ4DGtlhFkQbmhCK75zXoHCcmL8CR65Y1448DO57zXthvTBHla9zclr139/kqDv0zCzJu0LTzx3jIUaV5Iy62Rkj25Jq+wrEHZwOAmPR0KE55zl6hZKowAkeFJepjQ3WR9paPi3rVyP+9cBvGVm5MTyNb4JiCdJgIsEOCzSbaD2rOqdJSgON4PDDWV+orfMKM8X8oq954SH8lukb25vT9Nk/V7o01fxXJwkNyH+s30vhomM3cT49910FCE1DI+w3yoTdP0WwvWz95YKX4vmCX7oKy9DmFINUJqepnfaWrM14/GOakswJN5TmUlvWleDqr4+d10rQHuYEIGDBQqFCAbSUDGpfEAX3bPZf02/GioUK0joaOhQRzcGSZf0xPITwIbQC+QK+8gvJoU9JtVGlN4MCE+dCM+nuZr2KF86JJF6iQknqzZwJ20sJSU2agpG8rke7qX8o+sJDnTTj++s1/rztH+kBTKIeG6pI1wX4EFSulZyn6bAYWpKBuu6zdEYcbUbo1q8cQQ74lk4Roo5IZq6pL++k+GU7UjQid3rgs+nTH7Hio4IZ7Mn0/urXVxWz3Dr93c/KnlofPro9A+ip6U3YivKkVzDVbOjTQglf0umCjmj4IAGKhn9X8mdyqHFFMA=
+
 language: node_js
 node_js:
   - node
+
 
 script:
   - make lint
