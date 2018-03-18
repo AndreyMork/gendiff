@@ -9,7 +9,7 @@ program
   .version(version)
   .arguments('<firstConfig>')
   .arguments('<secondConfig>')
-  .option('-f, --format [type]', `output format. Supported: ${getOutputFormats()}.`)
+  .option('-f, --format [type]', `output format - default: raw. Supported: ${getOutputFormats()}.`)
   .action((firstConfig, secondConfig) =>
     console.log(gendiff(firstConfig, secondConfig, program.format)))
   .parse(process.argv);
