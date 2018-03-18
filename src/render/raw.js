@@ -1,4 +1,4 @@
-import { trimEnd, isObject } from 'lodash';
+import { trimEnd, isObject, flatten } from 'lodash';
 
 const indent = ' '.repeat(4);
 
@@ -22,13 +22,12 @@ const render = (ast, depth = 0) => {
     added: node => buildString(node.key, node.value, '  + ', depth),
     removed: node => buildString(node.key, node.value, '  - ', depth),
     changed: node =>
-      `${buildString(node.key, node.valueAfter, '  + ', depth)}` +
-      `\n${buildString(node.key, node.valueBefore, '  - ', depth)}`,
+      [`${buildString(node.key, node.valueAfter, '  + ', depth)}`, `${buildString(node.key, node.valueBefore, '  - ', depth)}`];
     nested: node =>
       `${indent.repeat(depth + 1)}${node.key}: ${render(node.children, depth + 1)}`,
   };
 
-  const strings = ast.map(node => trimEnd(getString[node.type](node)));
+  const strings = flatten(ast.map(node => trimEnd(getString[node.type](node))));
   const closingBracket = `${indent.repeat(depth)}}\n`;
   return ['{', ...strings, closingBracket].join('\n');
 };
