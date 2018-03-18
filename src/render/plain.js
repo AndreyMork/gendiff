@@ -7,16 +7,16 @@ const stringify = (value) => {
   return isString(value) ? `'${value}'` : `${value}`;
 };
 
-const render = (ast, nestedIn = '') => {
+const render = (ast, parent = '') => {
   const getString = {
     common: () => '',
-    nested: node => render(node.children, `${nestedIn}${node.key}.`),
-    removed: node => `Property '${nestedIn}${node.key}' was removed`,
+    nested: node => render(node.children, `${parent}${node.key}.`),
+    removed: node => `Property '${parent}${node.key}' was removed`,
     changed: node =>
-      `Property '${nestedIn}${node.key}' was updated. From ${stringify(node.valueBefore)} to ${stringify(node.valueAfter)}`,
+      `Property '${parent}${node.key}' was updated. From ${stringify(node.valueBefore)} to ${stringify(node.valueAfter)}`,
     added: (node) => {
       const valueStr = isObject(node.value) ? stringify(node.value) : `value: ${stringify(node.value)}`;
-      return `Property '${nestedIn}${node.key}' was added with ${valueStr}`;
+      return `Property '${parent}${node.key}' was added with ${valueStr}`;
     },
   };
 
