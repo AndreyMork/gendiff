@@ -23,8 +23,10 @@ const types = [
   },
 ];
 
-const getKeyType = (key, beforeObj, afterObj) =>
-  find(types, ({ check }) => check(key, beforeObj, afterObj));
+const getKeyType = (key, beforeObj, afterObj) => {
+  const { type } = find(types, ({ check }) => check(key, beforeObj, afterObj));
+  return type;
+};
 
 const makeAst = (beforeObj, afterObj) => {
   const makeNode = {
@@ -42,7 +44,7 @@ const makeAst = (beforeObj, afterObj) => {
 
   const keys = union(Object.keys(beforeObj), Object.keys(afterObj));
   return keys.map((key) => {
-    const { type } = getKeyType(key, beforeObj, afterObj);
+    const type = getKeyType(key, beforeObj, afterObj);
     return makeNode[type](key);
   });
 };
