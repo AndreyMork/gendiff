@@ -14,7 +14,7 @@ const stringify = (value, depth) => {
 };
 
 const buildString = (key, value, actionStr, depth) =>
-  `${indent.repeat(depth)}${actionStr}${key}: ${stringify(value, depth + 1)}`;
+  trimEnd(`${indent.repeat(depth)}${actionStr}${key}: ${stringify(value, depth + 1)}`);
 
 const render = (ast, depth = 0) => {
   const getString = {
@@ -27,8 +27,8 @@ const render = (ast, depth = 0) => {
       `${indent.repeat(depth + 1)}${node.key}: ${render(node.children, depth + 1)}`,
   };
 
-  const strings = flatten(ast.map(node => trimEnd(getString[node.type](node))));
-  const closingBracket = `${indent.repeat(depth)}}\n`;
+  const strings = flatten(ast.map(node => getString[node.type](node)));
+  const closingBracket = `${indent.repeat(depth)}}`;
   return ['{', ...strings, closingBracket].join('\n');
 };
 
