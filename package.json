@@ -11,7 +11,8 @@
   ],
   "scripts": {
     "babel-node": "babel-node",
-    "test": "jest --coverage",
+    "test": "jest",
+    "test-coverage": "jest --coverage",
     "eslint": "eslint",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build",

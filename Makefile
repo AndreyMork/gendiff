@@ -14,8 +14,8 @@ lint:
 test:
 	npm run test
 
-ast-test:
-	npm run ast-test
+test-coverage:
+	npm run test-coverage
 
 watch-test:
 	npm run watch-test
