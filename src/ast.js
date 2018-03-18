@@ -1,21 +1,30 @@
-import { union, has, isObject } from 'lodash';
+import { union, has, isObject, find } from 'lodash';
 
-const isBothObj = (key, beforeObj, afterObj) => isObject(beforeObj[key]) && isObject(afterObj[key]);
-const isRemoved = (key, beforeObj, afterObj) => has(beforeObj, key) && !has(afterObj, key);
-const isAdded = (key, beforeObj, afterObj) => !has(beforeObj, key) && has(afterObj, key);
-const isChanged = (key, beforeObj, afterObj) => beforeObj[key] !== afterObj[key];
+const types = [
+  {
+    type: 'nested',
+    check: (key, beforeObj, afterObj) => isObject(beforeObj[key]) && isObject(afterObj[key]),
+  },
+  {
+    type: 'added',
+    check: (key, beforeObj, afterObj) => !has(beforeObj, key) && has(afterObj, key),
+  },
+  {
+    type: 'removed',
+    check: (key, beforeObj, afterObj) => has(beforeObj, key) && !has(afterObj, key),
+  },
+  {
+    type: 'changed',
+    check: (key, beforeObj, afterObj) => beforeObj[key] !== afterObj[key],
+  },
+  {
+    type: 'common',
+    check: (key, beforeObj, afterObj) => beforeObj[key] === afterObj[key],
+  },
+];
 
-const getKeyType = (key, beforeObj, afterObj) => {
-  if (isBothObj(key, beforeObj, afterObj)) {
-    return 'nested';
-  } else if (isAdded(key, beforeObj, afterObj)) {
-    return 'added';
-  } else if (isRemoved(key, beforeObj, afterObj)) {
-    return 'removed';
-  }
-
-  return isChanged(key, beforeObj, afterObj) ? 'changed' : 'common';
-};
+const getKeyType = (key, beforeObj, afterObj) =>
+  find(types, ({ check }) => check(key, beforeObj, afterObj));
 
 const makeAst = (beforeObj, afterObj) => {
   const makeNode = {
@@ -33,7 +42,7 @@ const makeAst = (beforeObj, afterObj) => {
 
   const keys = union(Object.keys(beforeObj), Object.keys(afterObj));
   return keys.map((key) => {
-    const type = getKeyType(key, beforeObj, afterObj);
+    const { type } = getKeyType(key, beforeObj, afterObj);
     return makeNode[type](key);
   });
 };
