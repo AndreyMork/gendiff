@@ -6,7 +6,7 @@
 
 ***
 
-[Hexlet project.](https://ru.hexlet.io/projects)
+[Hexlet project](https://ru.hexlet.io/projects)
 
 Compares two configuration files and shows the difference.
 Supported formats: ```json, yaml, ini```.
