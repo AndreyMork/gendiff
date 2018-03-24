@@ -10,6 +10,8 @@ const renderers = {
 
 export const getOutputFormats = () => Object.keys(renderers).join(', ');
 
+// TODO: color
+// TODO: array
 export default (ast, format) => {
   const render = renderers[format];
   if (!render) {

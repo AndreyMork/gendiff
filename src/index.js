@@ -4,6 +4,8 @@ import parse from './parser';
 import makeAST from './ast';
 import render from './render';
 
+// TODO: autocomplete in terminal
+// TODO: cli api
 export default (beforeFilePath, afterFilePath, format = 'raw') => {
   const beforeFileStr = readFileSync(beforeFilePath, 'utf-8');
   const afterFileStr = readFileSync(afterFilePath, 'utf-8');
