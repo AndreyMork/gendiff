@@ -39,9 +39,9 @@
     "jest-cli": "*"
   },
   "bugs": {
-    "url": "https://github.com/AndreyMork/project-lvl2-s201/issues"
+    "url": "https://github.com/AndreyMork/gendiff/issues"
   },
-  "homepage": "https://github.com/AndreyMork/project-lvl2-s201#readme",
+  "homepage": "https://github.com/AndreyMork/gendiff#readme",
   "dependencies": {
     "commander": "^2.15.0",
     "ini": "^1.3.5",
