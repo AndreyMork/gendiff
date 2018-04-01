@@ -5,7 +5,7 @@ import { version } from '../../package.json';
 import { getOutputFormats } from '../render';
 
 program
-  .description('Compares two configuration files and shows the difference.\n  Supported formats: "json, yaml, ini".')
+  .description('Compares two configuration files and shows the difference.\n  Supported formats: json, yaml, ini.')
   .version(version)
   .arguments('<firstConfig>')
   .arguments('<secondConfig>')
