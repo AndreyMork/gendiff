@@ -20,7 +20,6 @@ Supported formats: ```json, yaml, ini```.
 
 ```$ npm install aethra-gendiff```
 
-***
 ## Usage
 
 ```$ gendiff --help```
