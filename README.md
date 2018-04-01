@@ -22,22 +22,22 @@ Supported formats: ```json, yaml, ini```.
 
 ## Usage
 
-```$ gendiff --help```
+    $ gendiff --help
 
-    Usage: gendiff [options] <firstConfig> <secondConfig>
+      Usage: gendiff [options] <firstConfig> <secondConfig>
 
-    Compares two configuration files and shows the difference.
-    Supported formats: json, yaml, ini.
+      Compares two configuration files and shows the difference.
+      Supported formats: json, yaml, ini.
 
-    Options:
+      Options:
 
-      -V, --version        output the version number
-      -f, --format [type]  output format - default: raw. Supported: plain, raw, json.
-      -h, --help           output usage information
-***
+        -V, --version        output the version number
+        -f, --format [type]  output format - default: raw. Supported: plain, raw, json.
+        -h, --help           output usage information
+
 ## Example
 
-before.json
+    before.json
 
     {
       "key1": "was not changed",
@@ -48,7 +48,9 @@ before.json
       }
     }
 
-after.json
+<!-- -->
+
+    after.json
 
     {
       "key1": "was changed",
@@ -59,7 +61,9 @@ after.json
       }
     }
 
-```$ gendiff before.json after.json```
+<!-- -->
+
+    $ gendiff before.json after.json
 
     {
       + key1: was changed
@@ -73,7 +77,9 @@ after.json
       + key4: was added
     }
 
-```$ gendiff -f plain before.json after.json```
+<!-- -->
+
+    $ gendiff -f plain before.json after.json
 
     Property 'key1' was updated. From 'was not changed' to 'was changed'
     Property 'key2' was removed
@@ -81,6 +87,8 @@ after.json
     Property 'nested.innerKey2' was added with value: 'was added'
     Property 'key4' was added with value: 'was added'
 
-```$ gendiff -f json before.json after.json```
+<!-- -->
+
+    $ gendiff -f json before.json after.json
 
     [{"key":"key1","type":"changed","valueBefore":"was not changed","valueAfter":"was changed"},{"key":"key2","type":"removed","value":"to be removed"},{"key":"key3","type":"common","value":"was not changed"},{"key":"nested","type":"nested","children":[{"key":"innerKey1","type":"removed","value":"to be removed"},{"key":"innerKey2","type":"added","value":"was added"}]},{"key":"key4","type":"added","value":"was added"}]
