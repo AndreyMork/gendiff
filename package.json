@@ -26,17 +26,17 @@
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "*",
-    "babel-core": "*",
-    "babel-eslint": "*",
-    "babel-jest": "*",
-    "babel-preset-env": "*",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-stage-0": "*",
-    "eslint": "*",
-    "eslint-config-airbnb-base": "*",
-    "eslint-plugin-import": "*",
-    "eslint-plugin-jest": "*",
-    "jest": "*",
-    "jest-cli": "*"
+    "eslint": "^5.7.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jest": "^21.25.0",
+    "jest": "^23.6.0",
+    "jest-cli": "^23.6.0"
   },
   "bugs": {
     "url": "https://github.com/AndreyMork/gendiff/issues"
