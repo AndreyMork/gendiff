@@ -12,8 +12,8 @@ const render = (ast, parent = '') => {
     common: () => '',
     nested: node => render(node.children, `${parent}${node.key}.`),
     removed: node => `Property '${parent}${node.key}' was removed`,
-    changed: node =>
-      `Property '${parent}${node.key}' was updated. From ${stringify(node.valueBefore)} to ${stringify(node.valueAfter)}`,
+    changed: node => (
+      `Property '${parent}${node.key}' was updated. From ${stringify(node.valueBefore)} to ${stringify(node.valueAfter)}`),
     added: (node) => {
       const valueStr = isObject(node.value) ? stringify(node.value) : `value: ${stringify(node.value)}`;
       return `Property '${parent}${node.key}' was added with ${valueStr}`;

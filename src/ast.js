@@ -1,4 +1,6 @@
-import { union, has, isObject, find } from 'lodash';
+import {
+  union, has, isObject, find,
+} from 'lodash';
 
 const types = [
   {
